@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Picture Resize | Easy Doc Conversion (EDC)</title>
+<meta name="description" content="Resize pictures online: custom size, remove background, add background, change format and file size. Free and private, everything stays on your device.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23ff7a59'/%3E%3Cpath d='M13 8h14l8 8v22a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3V11a3 3 0 0 1 3-3z' fill='%23fff'/%3E%3Ccircle cx='34' cy='34' r='10' fill='%231c2e6b' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E">
+<style>
+  :root{--navy:#1c2b6b;--ink:#17213f;--muted:#5d6a8a;--line:#dde3f1;--bg:#f3f6fd;--card:#fff;--ok:#1f9d55;--accent:#ff7a59;--blue:#2b579a}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+  header{background:linear-gradient(120deg,#0b1440,#1c2b6b 60%,#1aa3c4);color:#fff;padding:12px 16px;position:relative;overflow:hidden}
+  header .in{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:12px}
+  header svg{width:42px;height:42px;flex:none}
+  header .t{font-weight:800;font-size:19px;line-height:1.15}
+  header .t b{color:#ffd166}
+  header .s{font-size:12.5px;opacity:.85}
+  header a.back{margin-left:auto;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.45);padding:7px 12px;border-radius:20px;font-size:13.5px;white-space:nowrap}
+  header a.back:hover{background:rgba(255,255,255,.15)}
+  main{max-width:1000px;margin:0 auto;padding:18px 14px 30px}
+  h1{margin:6px 0 4px;font-size:26px}
+  .lead{color:var(--muted);margin:0 0 16px;font-size:15.5px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(28,43,107,.05)}
+  .card h2{font-size:16.5px;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+  .card h2 .n{background:var(--navy);color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+  .drop{border:2px dashed #9db0e0;border-radius:14px;padding:26px 14px;text-align:center;background:#f8faff;transition:.15s}
+  .drop.over{background:#e8f0ff;border-color:var(--blue)}
+  .drop p{margin:6px 0;color:var(--muted)}
+  .btn{border:0;border-radius:10px;padding:11px 18px;font:inherit;font-weight:700;cursor:pointer;background:var(--navy);color:#fff;min-height:44px}
+  .btn:hover{filter:brightness(1.1)}
+  .btn.alt{background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:600}
+  .btn.ok{background:var(--ok)}
+  .btn.accent{background:var(--accent)}
+  .btn:disabled{opacity:.5;cursor:default}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  label.f{display:block;font-size:13.5px;font-weight:600;margin-bottom:4px}
+  input[type=number],input[type=text],select{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff;min-height:42px}
+  input[type=color]{width:46px;height:42px;padding:2px;border:1px solid var(--line);border-radius:9px;background:#fff}
+  input[type=range]{width:100%}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .tabs button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:7px 14px;font:inherit;font-size:14px;cursor:pointer}
+  .tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .hide{display:none!important}
+  .hint{font-size:12.5px;color:var(--muted);margin-top:5px}
+  .files{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .fi{width:104px;border:1px solid var(--line);border-radius:10px;padding:5px;font-size:11.5px;position:relative;background:#fff}
+  .fi img{width:100%;height:76px;object-fit:cover;border-radius:6px;display:block;background:#eee}
+  .fi .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+  .fi button{position:absolute;top:-7px;right:-7px;width:24px;height:24px;border-radius:50%;border:0;background:#d62828;color:#fff;cursor:pointer;font-size:14px;line-height:1}
+  .chk{display:flex;gap:8px;align-items:center;font-size:14px}
+  .chk input{width:18px;height:18px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .pv{background:repeating-conic-gradient(#e7ebf5 0 25%,#fff 0 50%) 0 0/16px 16px;border:1px solid var(--line);border-radius:12px;min-height:150px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .pv canvas,.pv img{max-width:100%;max-height:340px;display:block}
+  .cap{font-size:13px;color:var(--muted);text-align:center;margin-top:5px}
+  .swatches{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  .sw{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}
+  .sw.t{background:repeating-conic-gradient(#ccc 0 25%,#fff 0 50%) 0 0/10px 10px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
+  .err{background:#fdecec;color:#a61e1e;border:1px solid #f3b8b8;padding:10px 12px;border-radius:10px;margin-bottom:12px;font-size:14px}
+  .bar{height:10px;background:#e4e9f6;border-radius:6px;overflow:hidden;margin:8px 0}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#1aa3c4,#2b579a);transition:width .15s}
+  footer{text-align:center;padding:22px 14px 30px;color:var(--muted);font-size:13.5px}
+  footer .f1{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--ink)}
+  footer .f1 svg{width:24px;height:24px}
+  footer .f2{margin-top:4px;color:var(--ink)}
+  footer .f2 a{color:inherit;text-decoration:none}
+  footer .f2 a:hover b{text-decoration:underline}
+  footer b{color:var(--blue)}
+  @media (max-width:700px){
+    h1{font-size:22px} header .s{display:none} header .t{font-size:16px}
+    .cols,.grid2{grid-template-columns:1fr} .grid3{grid-template-columns:1fr 1fr}
+    .tabs button{padding:7px 11px;font-size:13px}
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="logoSym" viewBox="0 0 48 48">
+  <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd166"/><stop offset="1" stop-color="#ff7a59"/></linearGradient></defs>
+  <rect width="48" height="48" rx="12" fill="url(#lg)"/>
+  <path d="M13 8h14l8 8v22a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3V11a3 3 0 0 1 3-3z" fill="#fff"/>
+  <path d="M27 8v8h8z" fill="#ffd9c9"/>
+  <path d="M15 22h14M15 27h9" stroke="#ff7a59" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="34" cy="34" r="10" fill="#1c2e6b" stroke="#fff" stroke-width="2"/>
+  <path d="M29.5 32h8l-2.4-2.4M38.5 36.5h-8l2.4 2.4" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol></defs></svg>
+
+<header><div class="in">
+  <svg viewBox="0 0 48 48"><use href="#logoSym"/></svg>
+  <div><div class="t">Easy Doc Conversion <b>(EDC)</b></div><div class="s">Fast, simple file conversion right in your browser</div></div>
+  <a class="back" href="index.html">← All tools</a>
+</div></header>
+
+<main>
+  <h1>🖼️ Picture Resize</h1>
+  <p class="lead">Change the size, background, format and file size of your pictures. Add one picture or many at once.</p>
+  <div class="err hide" id="err"></div>
+
+  <section class="card" id="stUpload">
+    <h2><span class="n">1</span> Upload your picture(s)</h2>
+    <div class="drop" id="drop">
+      <button class="btn accent" id="pick" type="button">📁 Upload Picture</button>
+      <p>or <b>Drop your picture here</b> (drag, or paste with Ctrl+V)</p>
+      <p style="font-size:12.5px">JPG, PNG, WEBP, BMP, GIF · up to 100 pictures</p>
+      <input type="file" id="fileIn" accept="image/*" multiple class="hide">
+    </div>
+    <div class="files" id="files"></div>
+  </section>
+
+  <div id="stOpts" class="hide">
+    <section class="card">
+      <h2><span class="n">2</span> Size</h2>
+      <div class="tabs" id="sizeTabs">
+        <button data-m="px" class="on">Custom size (pixels)</button>
+        <button data-m="pct">Percentage</button>
+        <button data-m="print">Print size (cm / mm / inch)</button>
+        <button data-m="preset">Ready-made sizes</button>
+      </div>
+      <div id="mPx">
+        <div class="grid2">
+          <div><label class="f" for="w">Width (px)</label><input type="number" id="w" min="1" max="12000" inputmode="numeric"></div>
+          <div><label class="f" for="h">Height (px)</label><input type="number" id="h" min="1" max="12000" inputmode="numeric"></div>
+        </div>
+        <label class="chk" style="margin-top:8px"><input type="checkbox" id="lock" checked> Keep the original shape (lock aspect ratio)</label>
+      </div>
+      <div id="mPct" class="hide">
+        <label class="f" for="pct">Scale: <b id="pctV">50</b>%</label><input type="range" id="pct" min="1" max="400" value="50">
+        <div class="hint">100% = same size. 50% = half as wide and tall.</div>
+      </div>
+      <div id="mPrint" class="hide">
+        <div class="grid3">
+          <div><label class="f" for="pw">Width</label><input type="number" id="pw" min="0.1" step="0.1" value="3.5"></div>
+          <div><label class="f" for="ph">Height</label><input type="number" id="ph" min="0.1" step="0.1" value="4.5"></div>
+          <div><label class="f" for="pu">Unit</label><select id="pu"><option value="cm">cm</option><option value="mm">mm</option><option value="in">inch</option></select></div>
+        </div>
+        <div style="margin-top:8px"><label class="f" for="pdpi">Print quality (DPI)</label><select id="pdpi"><option>72</option><option>96</option><option>150</option><option selected>300</option><option>600</option></select></div>
+        <div class="hint" id="pxInfo"></div>
+      </div>
+      <div id="mPreset" class="hide">
+        <label class="f" for="preset">Choose a size</label><select id="preset"></select>
+      </div>
+      <div id="fitWrap" style="margin-top:12px">
+        <label class="f" for="fit">When the new shape is different</label>
+        <select id="fit">
+          <option value="inside">Keep the whole picture (no cropping, no stretching)</option>
+          <option value="cover">Fill the exact size (crop the extra)</option>
+          <option value="contain">Exact size, add background around (no cropping)</option>
+          <option value="stretch">Stretch to the exact size</option>
+        </select>
+        <div class="hint">Passport and social media sizes usually need "Fill" or "add background".</div>
+      </div>
+      <div class="grid2" style="margin-top:12px">
+        <div id="cropPosWrap"><label class="f" for="cropPos">Crop focus</label><select id="cropPos"><option value="c">Centre</option><option value="t">Top (faces)</option><option value="b">Bottom</option><option value="l">Left</option><option value="r">Right</option></select></div>
+        <div><label class="f">Turn / flip</label>
+          <div class="row"><button class="btn alt" type="button" id="rotL" title="Rotate left">⟲</button><button class="btn alt" type="button" id="rotR" title="Rotate right">⟳</button><button class="btn alt" type="button" id="flipH" title="Flip left-right">⇋</button><button class="btn alt" type="button" id="flipV" title="Flip up-down">⇅</button><button class="btn alt" type="button" id="rst" title="Reset">↺</button></div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="n">3</span> Background</h2>
+      <div class="grid2">
+        <div>
+          <label class="f" for="rm">Remove background</label>
+          <select id="rm">
+            <option value="off">No, keep the background</option>
+            <option value="plain">Plain background (instant, works offline)</option>
+            <option value="ai">Smart AI (any background, needs internet)</option>
+          </select>
+          <div class="hint" id="rmHint"></div>
+        </div>
+        <div>
+          <label class="f" for="bgm">Add new background</label>
+          <select id="bgm">
+            <option value="none">None (transparent)</option>
+            <option value="color">Solid colour</option>
+            <option value="gradient">Colour gradient</option>
+            <option value="blur">Blurred copy of the picture</option>
+            <option value="image">My own picture</option>
+          </select>
+        </div>
+      </div>
+      <div id="plainBox" class="hide" style="margin-top:12px">
+        <div class="grid2">
+          <div><label class="f" for="tol">How much to remove: <b id="tolV">30</b></label><input type="range" id="tol" min="1" max="100" value="30"></div>
+          <div><label class="f" for="feather">Soft edge: <b id="featherV">1</b> px</label><input type="range" id="feather" min="0" max="6" value="1"></div>
+        </div>
+        <div class="row" style="margin-top:8px"><button class="btn alt" type="button" id="pickBtn">🎯 Pick the background colour from my picture</button><span id="pickSw" class="sw hide" style="cursor:default"></span><button class="btn alt hide" type="button" id="pickAuto">Automatic</button></div>
+        <label class="chk" style="margin-top:8px"><input type="checkbox" id="glob"> Remove this colour everywhere (also inside the picture)</label>
+        <div class="hide" id="pickWrap" style="margin-top:8px"><div class="hint">Click the background in the picture below:</div><canvas id="pickCv" style="max-width:100%;cursor:crosshair;border:1px solid var(--line);border-radius:10px"></canvas></div>
+      </div>
+      <div id="colorBox" class="hide" style="margin-top:12px">
+        <label class="f">Colour</label>
+        <div class="row"><input type="color" id="bgc" value="#ffffff"><div class="swatches" id="sws"></div></div>
+      </div>
+      <div id="gradBox" class="hide" style="margin-top:12px">
+        <div class="row"><div><label class="f">From</label><input type="color" id="g1" value="#ffd166"></div><div><label class="f">To</label><input type="color" id="g2" value="#1aa3c4"></div><div><label class="f" for="gdir">Direction</label><select id="gdir"><option value="v">Top to bottom</option><option value="h">Left to right</option><option value="d">Diagonal</option></select></div></div>
+      </div>
+      <div id="imgBox" class="hide" style="margin-top:12px">
+        <button class="btn alt" type="button" id="bgPick">🖼️ Choose background picture</button> <span id="bgName" class="hint"></span>
+        <input type="file" id="bgFile" accept="image/*" class="hide">
+      </div>
+      <div class="hint" style="margin-top:8px">A new background also fills the empty space when you choose "add background around".</div>
+    </section>
+
+    <section class="card">
+      <h2><span class="n">4</span> Picture format and file size</h2>
+      <div class="grid3">
+        <div><label class="f" for="fmt">Format</label><select id="fmt"><option value="jpg">JPG</option><option value="jpeg">JPEG</option><option value="png">PNG</option><option value="webp">WEBP</option><option value="same">Same as original</option></select></div>
+        <div id="qWrap"><label class="f" for="q">Quality: <b id="qV">90</b>%</label><input type="range" id="q" min="5" max="100" value="90"></div>
+        <div><label class="f" for="dpi">DPI (print density)</label><select id="dpi"><option value="">Leave as is</option><option>72</option><option>96</option><option>150</option><option>300</option><option>600</option></select></div>
+      </div>
+      <div class="grid3" style="margin-top:12px">
+        <div><label class="f" for="maxsz">Maximum file size</label><input type="number" id="maxsz" min="1" placeholder="No limit" inputmode="decimal"></div>
+        <div><label class="f" for="szu">Unit</label><select id="szu"><option value="KB">KB</option><option value="MB">MB</option></select></div>
+        <div><label class="f">&nbsp;</label><label class="chk"><input type="checkbox" id="shrink" checked> Reduce size if needed</label></div>
+      </div>
+      <div class="hint" id="fmtHint"></div>
+    </section>
+
+    <section class="card">
+      <h2><span class="n">5</span> Preview</h2>
+      <div class="cols">
+        <div><div class="pv" id="pvA"></div><div class="cap" id="capA"></div></div>
+        <div><div class="pv" id="pvB"></div><div class="cap" id="capB">Updating preview…</div></div>
+      </div>
+      <div class="row" style="margin-top:14px"><button class="btn ok" id="go" type="button">✅ Resize Picture</button><button class="btn alt" id="clr" type="button">Cancel</button></div>
+    </section>
+  </div>
+
+  <section class="card hide" id="stWork"><h2>Working…</h2><div class="bar"><i id="bar"></i></div><div id="wmsg" class="hint">Starting…</div></section>
+
+  <section class="card hide" id="stDone">
+    <h2>✅ Done</h2>
+    <div id="results"></div>
+    <div class="row" style="margin-top:12px">
+      <div style="flex:1;min-width:200px"><label class="f" for="fname">File name</label><div class="row" style="flex-wrap:nowrap"><input type="text" id="fname" style="flex:1"><b id="fext">.jpg</b></div></div>
+    </div>
+    <div class="row" style="margin-top:12px"><button class="btn ok" id="dl" type="button">⬇ Download the File</button><button class="btn alt" id="again" type="button">Resize another picture</button></div>
+    <div class="hint">Your pictures were processed on your own device and were not uploaded or stored.</div>
+  </section>
+</main>
+
+<footer>
+  <div class="f1"><svg viewBox="0 0 48 48"><use href="#logoSym"/></svg> © 2026 Easy Doc Conversion (EDC)</div>
+  <div class="f2">Developed By <a href="https://facebook.com/mehedi.hasanhemel" target="_blank" rel="noopener noreferrer"><b>HiMu</b></a></div>
+  <div class="f3" style="margin-top:6px">🔒 No data is saved or stored. Pictures stay on your device and are cleared when you leave this page.</div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && innerWidth < 900);
+const MAX_PX = IS_MOBILE ? 16e6 : 90e6;
+const MAX_FILES = 100;
+const PRESETS = [
+  ["Passport / ID photo", [["Passport 35 × 45 mm (413 × 531 px)", 413, 531], ["Passport 40 × 50 mm (472 × 591 px)", 472, 591], ["US passport 2 × 2 in (600 × 600 px)", 600, 600], ["Stamp size 20 × 25 mm (236 × 295 px)", 236, 295], ["Signature 300 × 80 px", 300, 80]]],
+  ["Social media", [["Instagram post 1080 × 1080", 1080, 1080], ["Instagram story / Reel 1080 × 1920", 1080, 1920], ["Facebook post 1200 × 630", 1200, 630], ["Facebook cover 820 × 312", 820, 312], ["WhatsApp profile 500 × 500", 500, 500], ["YouTube thumbnail 1280 × 720", 1280, 720], ["X (Twitter) header 1500 × 500", 1500, 500], ["LinkedIn banner 1584 × 396", 1584, 396]]],
+  ["Screen & web", [["HD 1280 × 720", 1280, 720], ["Full HD 1920 × 1080", 1920, 1080], ["4K 3840 × 2160", 3840, 2160], ["Website icon 512 × 512", 512, 512], ["Thumbnail 300 × 300", 300, 300]]],
+  ["Paper", [["A4 at 150 DPI (1240 × 1754)", 1240, 1754], ["A4 at 300 DPI (2480 × 3508)", 2480, 3508], ["Photo 4 × 6 in at 300 DPI (1200 × 1800)", 1200, 1800]]]
+];
+const S = {items: [], mode: "px", rot: 0, fh: false, fv: false, pick: null, bgImg: null, prevTimer: 0, prevId: 0, results: [], dlUrl: null, ratio: 1};
+
+// ---------- helpers ----------
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const kb = n => n >= 1048576 ? (n / 1048576).toFixed(2) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+function showErr(m) { const e = $("err"); e.textContent = m || ""; e.classList.toggle("hide", !m); if (m) e.scrollIntoView({block: "nearest"}); }
+function progress(p, m) { $("bar").style.width = Math.round(p * 100) + "%"; if (m) $("wmsg").textContent = m; }
+const blobOf = (c, type, q) => new Promise((res, rej) => c.toBlob(b => b ? res(b) : rej(new Error("This browser could not create the picture")), type, q));
+const mk = (w, h) => { const c = document.createElement("canvas"); c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h)); return c; };
+const loadImg = blob => new Promise((res, rej) => { const u = URL.createObjectURL(blob), i = new Image(); i.onload = () => { res(i); }; i.onerror = () => rej(new Error("Could not read this picture")); i.src = u; });
+
+// ---------- upload ----------
+async function addFiles(list) {
+  showErr("");
+  const imgs = [...list].filter(f => /^image\//.test(f.type) || /\.(jpe?g|png|webp|bmp|gif)$/i.test(f.name));
+  if (!imgs.length) { showErr("Please choose picture files (JPG, PNG, WEBP, BMP or GIF)."); return; }
+  const room = MAX_FILES - S.items.length;
+  if (imgs.length > room) showErr(`You can add up to ${MAX_FILES} pictures at once. Extra pictures were skipped.`);
+  for (const f of imgs.slice(0, Math.max(0, room))) {
+    try {
+      let bmp;
+      try { bmp = await createImageBitmap(f, {imageOrientation: "from-image"}); } catch (e) { bmp = await loadImg(f); }
+      const w = bmp.width || bmp.naturalWidth, h = bmp.height || bmp.naturalHeight;
+      S.items.push({file: f, name: f.name, base: f.name.replace(/\.[^.]+$/, ""), bmp, w, h, url: URL.createObjectURL(f), type: f.type});
+    } catch (e) { showErr(`"${f.name}" could not be read. ${e.message || ""}`); }
+  }
+  render();
+}
+function render() {
+  $("files").innerHTML = S.items.map((it, i) => `<div class="fi"><img src="${it.url}" alt=""><div class="nm" title="${esc(it.name)}">${esc(it.name)}</div><div class="nm" style="color:var(--muted)">${it.w}×${it.h} · ${kb(it.file.size)}</div><button type="button" data-i="${i}" aria-label="Remove">×</button></div>`).join("");
+  const has = S.items.length > 0;
+  $("stOpts").classList.toggle("hide", !has);
+  if (has) {
+    const f = S.items[0]; S.ratio = f.w / f.h;
+    if (!$("w").value && !$("h").value) { $("w").value = f.w; $("h").value = f.h; }
+    $("go").textContent = S.items.length > 1 ? `✅ Resize ${S.items.length} Pictures` : "✅ Resize Picture";
+    drawPick(); preview();
+  }
+}
+$("files").addEventListener("click", e => { const b = e.target.closest("button[data-i]"); if (!b) return; const it = S.items.splice(+b.dataset.i, 1)[0]; URL.revokeObjectURL(it.url); if (it.bmp.close) it.bmp.close(); if (!S.items.length) { $("w").value = $("h").value = ""; } render(); });
+$("pick").onclick = () => $("fileIn").click();
+$("drop").addEventListener("click", e => { if (e.target === $("drop")) $("fileIn").click(); });
+$("fileIn").onchange = e => { addFiles(e.target.files); e.target.value = ""; };
+["dragenter", "dragover"].forEach(t => $("drop").addEventListener(t, e => { e.preventDefault(); $("drop").classList.add("over"); }));
+["dragleave", "drop"].forEach(t => $("drop").addEventListener(t, e => { e.preventDefault(); $("drop").classList.remove("over"); }));
+$("drop").addEventListener("drop", e => addFiles(e.dataTransfer.files));
+window.addEventListener("dragover", e => e.preventDefault()); window.addEventListener("drop", e => e.preventDefault());
+window.addEventListener("paste", e => { const fs = [...(e.clipboardData ? e.clipboardData.files : [])]; if (fs.length) addFiles(fs); });
+
+// ---------- options UI ----------
+const sel = $("preset");
+sel.innerHTML = PRESETS.map(([g, arr]) => `<optgroup label="${g}">${arr.map(([n, w, h]) => `<option value="${w}x${h}">${n}</option>`).join("")}</optgroup>`).join("");
+$("sws").innerHTML = ["#ffffff", "#000000", "#d62828", "#1f6fd1", "#9ad0f5", "#2b8a3e", "#ffd166", "#e9e9e9"].map(c => `<button type="button" class="sw" data-c="${c}" style="background:${c}" aria-label="${c}"></button>`).join("");
+$("sws").addEventListener("click", e => { const b = e.target.closest(".sw"); if (b) { $("bgc").value = b.dataset.c; preview(); } });
+function setMode(m) {
+  S.mode = m; [...$("sizeTabs").children].forEach(b => b.classList.toggle("on", b.dataset.m === m));
+  $("mPx").classList.toggle("hide", m !== "px"); $("mPct").classList.toggle("hide", m !== "pct"); $("mPrint").classList.toggle("hide", m !== "print"); $("mPreset").classList.toggle("hide", m !== "preset");
+  $("fitWrap").classList.toggle("hide", m === "pct");
+  if (m === "preset" || m === "print") { if ($("fit").value === "inside") $("fit").value = "cover"; }
+  fitUi(); pxInfo(); preview();
+}
+function fitUi() { $("cropPosWrap").classList.toggle("hide", $("fit").value !== "cover"); }
+$("sizeTabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) setMode(b.dataset.m); });
+$("fit").onchange = () => { fitUi(); preview(); };
+$("w").oninput = () => { if ($("lock").checked && $("w").value) $("h").value = Math.max(1, Math.round($("w").value / S.ratio)); preview(); };
+$("h").oninput = () => { if ($("lock").checked && $("h").value) $("w").value = Math.max(1, Math.round($("h").value * S.ratio)); preview(); };
+$("lock").onchange = () => { if ($("lock").checked && $("w").value) $("h").value = Math.max(1, Math.round($("w").value / S.ratio)); preview(); };
+$("pct").oninput = () => { $("pctV").textContent = $("pct").value; preview(); };
+["pw", "ph", "pu", "pdpi"].forEach(i => $(i).oninput = $(i).onchange = () => { pxInfo(); preview(); });
+$("preset").onchange = preview; $("cropPos").onchange = preview;
+function printPx() { const u = $("pu").value, f = u === "cm" ? 1 / 2.54 : u === "mm" ? 1 / 25.4 : 1, d = +$("pdpi").value; return [Math.round($("pw").value * f * d), Math.round($("ph").value * f * d)]; }
+function pxInfo() { const [a, b] = printPx(); $("pxInfo").textContent = `= ${a} × ${b} pixels`; }
+$("rotL").onclick = () => { S.rot = (S.rot + 270) % 360; swapRatio(); preview(); }; $("rotR").onclick = () => { S.rot = (S.rot + 90) % 360; swapRatio(); preview(); };
+$("flipH").onclick = () => { S.fh = !S.fh; preview(); }; $("flipV").onclick = () => { S.fv = !S.fv; preview(); };
+$("rst").onclick = () => { S.rot = 0; S.fh = S.fv = false; swapRatio(); preview(); };
+function swapRatio() { const f = S.items[0]; if (!f) return; const sw = S.rot % 180; S.ratio = sw ? f.h / f.w : f.w / f.h; if ($("lock").checked && $("w").value) $("h").value = Math.max(1, Math.round($("w").value / S.ratio)); drawPick(); }
+
+$("rm").onchange = () => { const v = $("rm").value; $("plainBox").classList.toggle("hide", v !== "plain");
+  $("rmHint").textContent = v === "plain" ? "Best for plain backgrounds like white walls or studio photos." : v === "ai" ? "Works on any background. The first time it downloads a model (about 40 MB) and then runs on your device. The preview shows it only after you press Resize." : ""; preview(); };
+$("bgm").onchange = () => { const v = $("bgm").value; $("colorBox").classList.toggle("hide", v !== "color"); $("gradBox").classList.toggle("hide", v !== "gradient"); $("imgBox").classList.toggle("hide", v !== "image"); preview(); };
+["tol", "feather"].forEach(i => $(i).oninput = () => { $(i + "V").textContent = $(i).value; preview(); });
+["bgc", "g1", "g2", "gdir", "glob"].forEach(i => $(i).oninput = $(i).onchange = preview);
+$("bgPick").onclick = () => $("bgFile").click();
+$("bgFile").onchange = async e => { const f = e.target.files[0]; if (!f) return; try { S.bgImg = await loadImg(f); $("bgName").textContent = f.name; preview(); } catch (x) { showErr(x.message); } };
+$("pickBtn").onclick = () => { $("pickWrap").classList.toggle("hide"); drawPick(); };
+$("pickAuto").onclick = () => { S.pick = null; $("pickSw").classList.add("hide"); $("pickAuto").classList.add("hide"); preview(); };
+function srcCanvas(it, maxSide) {
+  const sw = S.rot % 180, w0 = it.w, h0 = it.h; let w = sw ? h0 : w0, h = sw ? w0 : h0;
+  let k = 1; if (maxSide && Math.max(w, h) > maxSide) k = maxSide / Math.max(w, h);
+  const c = mk(w * k, h * k), x = c.getContext("2d");
+  x.imageSmoothingQuality = "high"; x.translate(c.width / 2, c.height / 2); x.rotate(S.rot * Math.PI / 180); x.scale(S.fh ? -1 : 1, S.fv ? -1 : 1);
+  x.drawImage(it.bmp, -w0 * k / 2, -h0 * k / 2, w0 * k, h0 * k); return c;
+}
+function drawPick() { const it = S.items[0]; if (!it) return; const c = srcCanvas(it, 360), p = $("pickCv"); p.width = c.width; p.height = c.height; p.getContext("2d").drawImage(c, 0, 0); }
+$("pickCv").addEventListener("click", e => {
+  const c = $("pickCv"), r = c.getBoundingClientRect(), x = Math.floor((e.clientX - r.left) * c.width / r.width), y = Math.floor((e.clientY - r.top) * c.height / r.height);
+  const d = c.getContext("2d").getImageData(Math.max(0, x - 1), Math.max(0, y - 1), 3, 3).data; let R = 0, G = 0, B = 0; for (let i = 0; i < 36; i += 4) { R += d[i]; G += d[i + 1]; B += d[i + 2]; }
+  S.pick = [R / 9, G / 9, B / 9].map(Math.round); $("pickSw").style.background = `rgb(${S.pick})`; $("pickSw").classList.remove("hide"); $("pickAuto").classList.remove("hide"); $("pickWrap").classList.add("hide"); preview();
+});
+function fmtUi() {
+  const f = $("fmt").value; $("qWrap").classList.toggle("hide", f === "png");
+  $("fmtHint").textContent = f === "png" ? "PNG keeps transparency but its size cannot be lowered with quality. If you set a maximum size, the picture will be made smaller." : f === "webp" ? "WEBP is small and keeps transparency." : f === "same" ? "The picture keeps its original format (BMP and GIF become PNG)." : "JPG has no transparency, so empty areas are filled with your background colour (or white).";
+}
+$("fmt").onchange = () => { fmtUi(); preview(); };
+$("q").oninput = () => { $("qV").textContent = $("q").value; preview(); };
+["maxsz", "szu", "shrink", "dpi"].forEach(i => $(i).oninput = $(i).onchange = preview);
+fmtUi(); pxInfo(); fitUi();
+
+// ---------- resize engine ----------
+function resizeTo(src, w, h) {
+  w = Math.max(1, Math.round(w)); h = Math.max(1, Math.round(h));
+  let cur = src;
+  while (cur.width / 2 >= w && cur.height / 2 >= h) { const t = mk(cur.width / 2, cur.height / 2), x = t.getContext("2d"); x.imageSmoothingQuality = "high"; x.drawImage(cur, 0, 0, t.width, t.height); cur = t; }
+  const out = mk(w, h), x = out.getContext("2d"); x.imageSmoothingQuality = "high"; x.drawImage(cur, 0, 0, w, h);
+  return out;
+}
+function plan(sw, sh) {
+  const m = S.mode, fit = $("fit").value; let W, H;
+  if (m === "pct") { const k = +$("pct").value / 100; W = Math.round(sw * k); H = Math.round(sh * k); return {W, H, fit: "stretch"}; }
+  if (m === "px") { W = +$("w").value || 0; H = +$("h").value || 0; if (!W && !H) { W = sw; H = sh; } else if (!W) W = Math.round(H * sw / sh); else if (!H) H = Math.round(W * sh / sw); }
+  else if (m === "print") [W, H] = printPx();
+  else { const [a, b] = $("preset").value.split("x").map(Number); W = a; H = b; }
+  W = Math.max(1, Math.min(20000, W)); H = Math.max(1, Math.min(20000, H));
+  if (fit === "inside") { const s = Math.min(W / sw, H / sh); return {W: Math.max(1, Math.round(sw * s)), H: Math.max(1, Math.round(sh * s)), fit}; }
+  return {W, H, fit};
+}
+function sizes() { return null; }
+async function removePlain(c) {
+  const w = c.width, h = c.height, x = c.getContext("2d", {willReadFrequently: true}), im = x.getImageData(0, 0, w, h), d = im.data;
+  let bg = S.pick;
+  if (!bg) { const rs = [], gs = [], bs = []; const add = (px, py) => { const i = (py * w + px) * 4; rs.push(d[i]); gs.push(d[i + 1]); bs.push(d[i + 2]); };
+    const st = Math.max(1, Math.floor(Math.max(w, h) / 200)); for (let i = 0; i < w; i += st) { add(i, 0); add(i, h - 1); } for (let j = 0; j < h; j += st) { add(0, j); add(w - 1, j); }
+    const med = a => a.sort((p, q) => p - q)[a.length >> 1]; bg = [med(rs), med(gs), med(bs)]; }
+  const thr = (+$("tol").value / 100) * 220 + 6, thr2 = thr * thr, N = w * h, mask = new Uint8Array(N);
+  const near = i => { const dr = d[i * 4] - bg[0], dg = d[i * 4 + 1] - bg[1], db = d[i * 4 + 2] - bg[2]; return dr * dr + dg * dg + db * db <= thr2; };
+  if ($("glob").checked) { for (let i = 0; i < N; i++) if (near(i)) mask[i] = 1; }
+  else {
+    const q = new Int32Array(N); let qh = 0, qt = 0;
+    const push = i => { if (!mask[i] && near(i)) { mask[i] = 1; q[qt++] = i; } };
+    for (let i = 0; i < w; i++) { push(i); push((h - 1) * w + i); } for (let j = 0; j < h; j++) { push(j * w); push(j * w + w - 1); }
+    while (qh < qt) { const i = q[qh++], px = i % w; if (px > 0) push(i - 1); if (px < w - 1) push(i + 1); if (i >= w) push(i - w); if (i < N - w) push(i + w); }
+  }
+  // alpha with soft edge
+  let a = new Float32Array(N); for (let i = 0; i < N; i++) a[i] = mask[i] ? 0 : 1;
+  const fr = +$("feather").value;
+  if (fr > 0) {
+    for (let pass = 0; pass < 2; pass++) { // separable box blur
+      const t = new Float32Array(N);
+      for (let y = 0; y < h; y++) { let s = 0; const row = y * w; for (let xx = -fr; xx < w; xx++) { const ad = xx + fr, rm = xx - fr - 1; if (ad < w) s += a[row + ad]; if (rm >= 0) s -= a[row + rm]; if (xx >= 0) t[row + xx] = s / (Math.min(w - 1, xx + fr) - Math.max(0, xx - fr) + 1); } }
+      const u = new Float32Array(N);
+      for (let xx = 0; xx < w; xx++) { let s = 0; for (let yy = -fr; yy < h; yy++) { const ad = yy + fr, rm = yy - fr - 1; if (ad < h) s += t[ad * w + xx]; if (rm >= 0) s -= t[rm * w + xx]; if (yy >= 0) u[yy * w + xx] = s / (Math.min(h - 1, yy + fr) - Math.max(0, yy - fr) + 1); } }
+      a = u;
+    }
+    for (let i = 0; i < N; i++) if (mask[i]) a[i] = Math.min(a[i], 0.0); // keep removed pixels clear, soften only the inside edge
+  }
+  for (let i = 0; i < N; i++) d[i * 4 + 3] = Math.round(d[i * 4 + 3] * a[i]);
+  x.putImageData(im, 0, 0); return c;
+}
+let aiMod = null;
+async function removeAI(c, onp) {
+  if (!aiMod) {
+    const urls = ["https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm", "https://esm.sh/@imgly/background-removal@1.7.0"];
+    for (const u of urls) { try { aiMod = await import(u); if (aiMod && aiMod.removeBackground) break; } catch (e) { aiMod = null; } }
+    if (!aiMod || !aiMod.removeBackground) throw new Error("The smart AI could not be loaded. Please check your internet connection, or choose \"Plain background\".");
+  }
+  const blob = await blobOf(c, "image/png");
+  let out;
+  try { out = await aiMod.removeBackground(blob, {model: "isnet_quint8", output: {format: "image/png"}, progress: (k, cur, tot) => { if (onp && tot) onp(cur / tot, /fetch/i.test(k) ? "Downloading the AI model (first time only)…" : "Removing the background…"); }}); }
+  catch (e) { throw new Error("The smart AI could not run here (" + (e.message || e) + "). Try \"Plain background\" instead."); }
+  const im = await loadImg(out), r = mk(c.width, c.height); r.getContext("2d").drawImage(im, 0, 0, r.width, r.height); URL.revokeObjectURL(im.src); return r;
+}
+function coverDraw(x, img, W, H) { const iw = img.width || img.naturalWidth, ih = img.height || img.naturalHeight, s = Math.max(W / iw, H / ih), w = iw * s, h = ih * s; x.drawImage(img, (W - w) / 2, (H - h) / 2, w, h); }
+function paintBg(F, src) {
+  const x = F.getContext("2d"), W = F.width, H = F.height, m = $("bgm").value;
+  if (m === "color") { x.fillStyle = $("bgc").value; x.fillRect(0, 0, W, H); }
+  else if (m === "gradient") { const dir = $("gdir").value, g = dir === "v" ? x.createLinearGradient(0, 0, 0, H) : dir === "h" ? x.createLinearGradient(0, 0, W, 0) : x.createLinearGradient(0, 0, W, H); g.addColorStop(0, $("g1").value); g.addColorStop(1, $("g2").value); x.fillStyle = g; x.fillRect(0, 0, W, H); }
+  else if (m === "blur") { const sm = mk(Math.max(2, W / 24), Math.max(2, H / 24)), sx = sm.getContext("2d"); sx.imageSmoothingQuality = "high"; coverDraw(sx, src, sm.width, sm.height); x.imageSmoothingQuality = "high"; x.drawImage(sm, 0, 0, W, H); x.fillStyle = "rgba(255,255,255,.12)"; x.fillRect(0, 0, W, H); }
+  else if (m === "image" && S.bgImg) coverDraw(x, S.bgImg, W, H);
+}
+async function compose(it, opts) {
+  opts = opts || {}; const maxSide = opts.maxSide;
+  const src = srcCanvas(it), sw = src.width, sh = src.height, p = plan(sw, sh);
+  if (p.W * p.H > MAX_PX) throw new Error(`That size (${p.W} × ${p.H}) is too large for this device. Please choose a smaller size.`);
+  let C, cx = 0, cy = 0, F;
+  if (p.fit === "cover") {
+    const s = Math.max(p.W / sw, p.H / sh), cw = p.W / s, ch = p.H / s, pos = $("cropPos").value;
+    const sx = pos === "l" ? 0 : pos === "r" ? sw - cw : (sw - cw) / 2, sy = pos === "t" ? 0 : pos === "b" ? sh - ch : (sh - ch) / 2;
+    const crop = mk(cw, ch); crop.getContext("2d").drawImage(src, sx, sy, cw, ch, 0, 0, crop.width, crop.height); C = resizeTo(crop, p.W, p.H);
+  } else if (p.fit === "contain") {
+    const s = Math.min(p.W / sw, p.H / sh), cw = Math.max(1, Math.round(sw * s)), ch = Math.max(1, Math.round(sh * s)); C = resizeTo(src, cw, ch); cx = Math.round((p.W - cw) / 2); cy = Math.round((p.H - ch) / 2);
+  } else C = resizeTo(src, p.W, p.H);
+  const rm = $("rm").value;
+  if (rm === "plain") C = await removePlain(C);
+  else if (rm === "ai" && !opts.noAI) C = await removeAI(C, opts.onp);
+  F = mk(p.W, p.H); paintBg(F, src); F.getContext("2d").drawImage(C, cx, cy);
+  return F;
+}
+
+// ---------- export ----------
+const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+const crc32 = b => { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+async function setDpi(blob, mime, dpi) {
+  if (!dpi) return blob; const b = new Uint8Array(await blob.arrayBuffer());
+  if (mime === "image/jpeg" && b[2] === 0xFF && b[3] === 0xE0 && b[6] === 0x4A && b[7] === 0x46) { b[13] = 1; b[14] = dpi >> 8; b[15] = dpi & 255; b[16] = dpi >> 8; b[17] = dpi & 255; return new Blob([b], {type: mime}); }
+  if (mime === "image/png") {
+    const ppm = Math.round(dpi / 0.0254), chunk = new Uint8Array(21), dv = new DataView(chunk.buffer);
+    dv.setUint32(0, 9); chunk.set([0x70, 0x48, 0x59, 0x73], 4); dv.setUint32(8, ppm); dv.setUint32(12, ppm); chunk[16] = 1; dv.setUint32(17, crc32(chunk.subarray(4, 17)));
+    const out = new Uint8Array(b.length + 21); out.set(b.subarray(0, 33)); out.set(chunk, 33); out.set(b.subarray(33), 54); return new Blob([out], {type: mime});
+  }
+  return blob;
+}
+function outFormat(it) {
+  let f = $("fmt").value;
+  if (f === "same") { const t = (it.type || "").toLowerCase(); f = t === "image/jpeg" ? ($("fmt").dataset.j === "1" ? "jpeg" : "jpg") : t === "image/webp" ? "webp" : "png"; if (/\.jpeg$/i.test(it.name)) f = "jpeg"; }
+  return {ext: f, mime: f === "png" ? "image/png" : f === "webp" ? "image/webp" : "image/jpeg"};
+}
+async function exportCanvas(F, it) {
+  const {ext, mime} = outFormat(it), q0 = +$("q").value / 100, maxB = +$("maxsz").value > 0 ? +$("maxsz").value * ($("szu").value === "MB" ? 1048576 : 1024) : 0, shrink = $("shrink").checked;
+  let cv = F;
+  if (mime === "image/jpeg") { cv = mk(F.width, F.height); const x = cv.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, cv.width, cv.height); x.drawImage(F, 0, 0); }
+  const enc = (c, q) => blobOf(c, mime, mime === "image/png" ? undefined : q);
+  let blob, note = "", q = q0, c = cv;
+  const lossy = mime !== "image/png";
+  async function best(c) { // highest quality that fits maxB
+    let b = await enc(c, q0); if (!maxB || b.size <= maxB) return {b, q: q0};
+    let lo = 0.03, hi = q0, bb = null, bq = lo; const first = await enc(c, lo); if (first.size > maxB) return {b: first, q: lo, over: true};
+    bb = first;
+    for (let i = 0; i < 7; i++) { const mid = (lo + hi) / 2, t = await enc(c, mid); if (t.size <= maxB) { lo = mid; bb = t; bq = mid; } else hi = mid; }
+    return {b: bb, q: bq};
+  }
+  if (lossy) {
+    let r = await best(c);
+    let tries = 0;
+    while (maxB && r.over && shrink && tries < 14 && Math.min(c.width, c.height) > 24) { const k = Math.max(0.5, Math.sqrt(maxB / r.b.size) * 0.95); c = resizeTo(c, c.width * k, c.height * k); r = await best(c); tries++; }
+    blob = r.b; q = r.q; if (maxB && blob.size > maxB) note = "Could not reach the maximum size";
+    else if (c !== cv) note = `Made smaller (${c.width} × ${c.height}) to fit the size limit`;
+    else if (maxB && q < q0 - 0.001) note = `Quality lowered to ${Math.round(q * 100)}% to fit the size limit`;
+  } else {
+    blob = await enc(c); let tries = 0;
+    while (maxB && blob.size > maxB && shrink && tries < 16 && Math.min(c.width, c.height) > 24) { const k = Math.max(0.5, Math.sqrt(maxB / blob.size) * 0.95); c = resizeTo(c, c.width * k, c.height * k); blob = await enc(c); tries++; }
+    if (maxB && blob.size > maxB) note = "Could not reach the maximum size"; else if (c !== cv) note = `Made smaller (${c.width} × ${c.height}) to fit the size limit`;
+  }
+  blob = await setDpi(blob, mime, +$("dpi").value || 0);
+  const out = {blob, w: c.width, h: c.height, ext: ext === "same" ? "png" : ext, note, mime};
+  return out;
+}
+
+// ---------- preview ----------
+function preview() {
+  clearTimeout(S.prevTimer); const it = S.items[0]; if (!it) return;
+  $("capB").textContent = "Updating preview…";
+  S.prevTimer = setTimeout(async () => {
+    const id = ++S.prevId;
+    try {
+      const a = $("pvA"); a.innerHTML = `<img src="${it.url}" alt="Original">`; $("capA").textContent = `Original: ${it.w} × ${it.h} px · ${kb(it.file.size)}`;
+      const F = await compose(it, {noAI: true}); if (id !== S.prevId) return;
+      const r = await exportCanvas(F, it); if (id !== S.prevId) return;
+      const pv = mk(Math.min(F.width, 700), Math.min(F.width, 700) * F.height / F.width); pv.getContext("2d").drawImage(F, 0, 0, pv.width, pv.height);
+      $("pvB").innerHTML = ""; $("pvB").appendChild(pv);
+      $("capB").textContent = `Result: ${r.w} × ${r.h} px · ${kb(r.blob.size)} · ${r.ext.toUpperCase()}${r.note ? " · " + r.note : ""}${$("rm").value === "ai" ? " (AI background removal is applied when you press Resize)" : ""}`;
+      showErr("");
+    } catch (e) { if (id === S.prevId) { $("capB").textContent = e.message || "Could not make the preview"; } }
+  }, 350);
+}
+
+// ---------- run ----------
+function safeName(s) { return (s.replace(/[\\/:*?"<>|]/g, "").trim().replace(/\s+/g, "_") || "Picture"); }
+$("go").onclick = async () => {
+  showErr(""); if (!S.items.length) return;
+  $("stOpts").classList.add("hide"); $("stUpload").classList.add("hide"); $("stWork").classList.remove("hide"); progress(0, "Starting…");
+  S.results = []; const used = new Set();
+  try {
+    for (let i = 0; i < S.items.length; i++) {
+      const it = S.items[i], n = S.items.length;
+      progress(i / n, `Picture ${i + 1} of ${n}: resizing…`);
+      const F = await compose(it, {onp: (p, m) => progress((i + p * 0.8) / n, `Picture ${i + 1} of ${n}: ${m}`)});
+      const r = await exportCanvas(F, it); F.width = F.height = 0;
+      let base = safeName(it.base) + "_By_EDC", u = base, k = 2; while (used.has(u + "." + r.ext)) u = base + "_" + k++; used.add(u + "." + r.ext);
+      S.results.push({name: u, ext: r.ext, blob: r.blob, w: r.w, h: r.h, orig: it.file.size, note: r.note, src: it.name});
+      await sleep(0);
+    }
+    progress(1, "Finishing…"); showDone();
+  } catch (e) { console.error(e); $("stWork").classList.add("hide"); $("stOpts").classList.remove("hide"); $("stUpload").classList.remove("hide"); showErr(e.message || "Something went wrong. Please try again."); }
+};
+function showDone() {
+  $("stWork").classList.add("hide"); $("stDone").classList.remove("hide");
+  const R = S.results;
+  $("results").innerHTML = `<table><thead><tr><th>Picture</th><th>New size</th><th>File size</th><th></th></tr></thead><tbody>${R.map((r, i) => `<tr><td>${esc(r.src)}</td><td>${r.w} × ${r.h}</td><td>${kb(r.orig)} → <b>${kb(r.blob.size)}</b>${r.note ? `<div class="hint">${esc(r.note)}</div>` : ""}</td><td>${R.length > 1 ? `<button class="btn alt" data-d="${i}" style="min-height:36px;padding:6px 10px">⬇</button>` : ""}</td></tr>`).join("")}</tbody></table>`;
+  if (R.length === 1) { $("fname").value = R[0].name; $("fext").textContent = "." + R[0].ext; $("dl").textContent = "⬇ Download the File"; }
+  else { $("fname").value = "Picture_Resize_By_EDC"; $("fext").textContent = ".zip"; $("dl").textContent = `⬇ Download all ${R.length} pictures (zip)`; }
+  $("stDone").scrollIntoView({behavior: "smooth", block: "start"});
+}
+async function save(blob, name) {
+  try { const dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null; if (dl) { await dl.save({filename: name, data: blob}); return; } } catch (e) { if (e && e.code === "declined") return; }
+  const u = URL.createObjectURL(blob), a = document.createElement("a"); a.href = u; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 60000);
+}
+$("results").addEventListener("click", e => { const b = e.target.closest("button[data-d]"); if (!b) return; const r = S.results[+b.dataset.d]; save(r.blob, r.name + "." + r.ext); });
+$("dl").onclick = async () => {
+  const R = S.results; if (!R.length) return; const nm = safeName($("fname").value || R[0].name);
+  if (R.length === 1) { await save(R[0].blob, nm + "." + R[0].ext); return; }
+  $("dl").disabled = true; try { const z = new JSZip(); R.forEach(r => z.file(r.name + "." + r.ext, r.blob)); await save(await z.generateAsync({type: "blob", compression: "STORE"}), nm + ".zip"); } finally { $("dl").disabled = false; }
+};
+function reset() {
+  S.items.forEach(it => { URL.revokeObjectURL(it.url); if (it.bmp.close) it.bmp.close(); }); S.items = []; S.results = []; S.rot = 0; S.fh = S.fv = false; S.pick = null; S.bgImg = null;
+  $("w").value = $("h").value = ""; $("files").innerHTML = ""; $("stOpts").classList.add("hide"); $("stDone").classList.add("hide"); $("stWork").classList.add("hide"); $("stUpload").classList.remove("hide"); showErr("");
+}
+$("clr").onclick = reset; $("again").onclick = reset;
+window.addEventListener("pagehide", () => { S.items.forEach(it => URL.revokeObjectURL(it.url)); });
+})();
+</script>
+</body>
+</html>
